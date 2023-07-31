@@ -58,7 +58,7 @@ public class RestTemplateController {
     @RequestMapping("test4")
     public String test4() {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getForEntity("http://localhost:8090/test/2", String.class)
+        restTemplate.getForEntity("http://localhost:8090/test/2", String.class);
         return "test4";
     }
 }

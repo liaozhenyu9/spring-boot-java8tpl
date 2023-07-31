@@ -11,7 +11,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <spring-boot.version>2.7.13</spring-boot.version>
+        <spring-boot.version>2.7.14</spring-boot.version>
         <spring-cloud.version>2021.0.8</spring-cloud.version>
         <knife4j.version>4.1.0</knife4j.version>
         <fastjson2.version>2.0.35</fastjson2.version>
