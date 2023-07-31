@@ -66,12 +66,6 @@
                 <AppenderRef ref="ExceptionAppender"/>
             </Logger>
 
-            <Logger name="org.springframework.web.client.RestTemplate" level="DEBUG" additivity="false">
-                <AppenderRef ref="ConsoleAppender"/>
-                <AppenderRef ref="DailyAppender"/>
-                <AppenderRef ref="ExceptionAppender"/>
-            </Logger>
-
             <Root level="INFO">
                 <AppenderRef ref="ConsoleAppender"/>
                 <AppenderRef ref="DailyAppender"/>

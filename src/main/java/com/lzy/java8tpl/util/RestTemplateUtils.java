@@ -24,7 +24,6 @@ public class RestTemplateUtils {
 
     // 定义通用的 GET 请求方法
     public static <T> T get(String url, Class<T> responseType) {
-        log.info(">>>> GET {}", url);
         ResponseEntity<T> responseEntity = restTemplate.getForEntity(url, responseType);
         return responseEntity.getBody();
     }

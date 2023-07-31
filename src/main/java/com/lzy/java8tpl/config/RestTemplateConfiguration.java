@@ -1,5 +1,6 @@
 package com.lzy.java8tpl.config;
 
+import com.lzy.java8tpl.interceptor.RestTemplateLogInterceptor;
 import org.apache.http.Header;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
@@ -16,9 +17,11 @@ import org.apache.http.message.BasicHeader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -76,8 +79,12 @@ public class RestTemplateConfiguration {
 
     @Bean
     public RestTemplate restTemplate() {
-        HttpComponentsClientHttpRequestFactory  factory = new HttpComponentsClientHttpRequestFactory(httpClient());
-        return new RestTemplate(factory);
+        HttpComponentsClientHttpRequestFactory httpComponentsFactory = new HttpComponentsClientHttpRequestFactory(httpClient());
+        //通过BufferingClientHttpRequestFactory对象包装现有的ResquestFactory，用来支持多次调用getBody()方法
+        BufferingClientHttpRequestFactory bufferingFactory = new BufferingClientHttpRequestFactory(httpComponentsFactory);
+        RestTemplate restTemplate = new RestTemplate(bufferingFactory);
+        restTemplate.setInterceptors(Arrays.asList(new RestTemplateLogInterceptor()));
+        return restTemplate;
     }
 
 
