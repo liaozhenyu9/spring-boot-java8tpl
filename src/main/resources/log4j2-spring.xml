@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="INFO" strict="true">
+
+    <Properties>
+        <Property name="log-dir">/ubox/logs/java8tpl</Property>
+        <Property name="daily-file">${log-dir}/daily.log</Property>
+        <Property name="exception-file">${log-dir}/exception.log</Property>
+    </Properties>
+
+    <Appenders>
+
+        <Console name="ConsoleAppender" target="SYSTEM_OUT">
+            <PatternLayout>
+                <pattern>
+                    [%d][%X{requestId}][%t]%highlight{[%p] (%F:%L) - %m}{FATAL=red, ERROR=Bright red,WARN=yellow,INFO=Green,DEBUG=White,TRACE=Magenta}%n%throwable
+                </pattern>
+            </PatternLayout>
+        </Console>
+
+        <RollingFile name="DailyAppender"
+                     fileName="${daily-file}"
+                     filePattern="${daily-file}%d{yyyyMMdd}-%i.log.gz">
+            <PatternLayout>
+                <pattern>[%d][%X{requestId}][%p] (%F:%L) - %m%n%throwable</pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="100MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+
+        <RollingFile name="ExceptionAppender"
+                     fileName="${exception-file}"
+                     filePattern="${exception-file}%d{yyyyMMdd}-%i.log.gz">
+            <PatternLayout>
+                <pattern>[%d][%X{requestId}][%t][%p] (%F:%L) - %m%n%ex</pattern>
+            </PatternLayout>
+            <Filters>
+                <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="100MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+
+    </Appenders>
+
+    <Loggers>
+
+        <SpringProfile name="DEV">
+            <Logger name="com.lzy.java8tpl.client" level="DEBUG" additivity="false">
+                <AppenderRef ref="ConsoleAppender"/>
+            </Logger>
+            <Root level="INFO">
+                <AppenderRef ref="ConsoleAppender"/>
+            </Root>
+        </SpringProfile>
+
+        <SpringProfile name="REL">
+            <Logger name="com.lzy.java8tpl.client" level="DEBUG" additivity="false">
+                <AppenderRef ref="ConsoleAppender"/>
+                <AppenderRef ref="DailyAppender"/>
+                <AppenderRef ref="ExceptionAppender"/>
+            </Logger>
+
+            <Logger name="org.springframework.web.client.RestTemplate" level="DEBUG" additivity="false">
+                <AppenderRef ref="ConsoleAppender"/>
+                <AppenderRef ref="DailyAppender"/>
+                <AppenderRef ref="ExceptionAppender"/>
+            </Logger>
+
+            <Root level="INFO">
+                <AppenderRef ref="ConsoleAppender"/>
+                <AppenderRef ref="DailyAppender"/>
+                <AppenderRef ref="ExceptionAppender"/>
+            </Root>
+        </SpringProfile>
+
+        <SpringProfile name="PRO">
+
+            <Logger name="com.lzy.java8tpl.client" level="DEBUG" additivity="false">
+                <AppenderRef ref="DailyAppender"/>
+                <AppenderRef ref="ExceptionAppender"/>
+            </Logger>
+
+            <Root level="INFO">
+                <AppenderRef ref="DailyAppender"/>
+                <AppenderRef ref="ExceptionAppender"/>
+            </Root>
+        </SpringProfile>
+    </Loggers>
+
+</Configuration>
