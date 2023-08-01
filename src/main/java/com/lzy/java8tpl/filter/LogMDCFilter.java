@@ -1,5 +1,6 @@
 package com.lzy.java8tpl.filter;
 
+import com.lzy.java8tpl.util.MDCUtils;
 import org.slf4j.MDC;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -17,19 +18,13 @@ import java.util.UUID;
 @Component
 public class LogMDCFilter extends OncePerRequestFilter {
 
-    private final static String REQUEST_ID = "requestId";
-
     private static final String KEY_REQUEST_ID = "X-Request-Id";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         try {
-            String requestId = request.getHeader(REQUEST_ID);
-            if (!StringUtils.hasText(requestId)) {
-                requestId = UUID.randomUUID().toString();
-            }
-            //将生成的request-id放入MDC中，允许打印日志时获取
-            MDC.put(REQUEST_ID, requestId);
+            String requestId = request.getHeader(KEY_REQUEST_ID);
+            MDCUtils.setRequestId(requestId);
 
             //将request-id写入响应头
             response.addHeader(KEY_REQUEST_ID, requestId);

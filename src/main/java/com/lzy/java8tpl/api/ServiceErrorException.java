@@ -10,6 +10,10 @@ public class ServiceErrorException extends ApiException {
         super(ErrorCode.SERVICE_ERROR, msg);
     }
 
+    public ServiceErrorException(Throwable cause) {
+        super(ErrorCode.SERVICE_ERROR, cause);
+    }
+
     public ServiceErrorException(String msg, Throwable cause) {
         super(ErrorCode.SERVICE_ERROR, msg, cause);
     }

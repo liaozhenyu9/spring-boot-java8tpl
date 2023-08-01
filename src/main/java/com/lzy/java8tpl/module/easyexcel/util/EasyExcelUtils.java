@@ -29,7 +29,7 @@ public class EasyExcelUtils {
                     .doWrite(data);
         } catch (Exception e) {
             log.error("File Export Error", e);
-            throw new ServiceErrorException("下载文件失败" + e.getMessage(), e);
+            throw new ServiceErrorException("下载文件失败," + e.getMessage(), e);
         }
     }
 }
