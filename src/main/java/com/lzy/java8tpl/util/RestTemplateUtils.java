@@ -109,9 +109,9 @@ public class RestTemplateUtils {
     }
 
     public static void handleException(String url, Exception e) {
-        log.error("remote service invoke failed, url:{}", url);
-        log.error("exception type                   :{}", e.getClass());
-        log.error("exception reason                 :{}", e.getMessage());
+        log.error("Remote service invoke failed, url:{}", url);
+        log.error("Exception type                   :{}", e.getClass());
+        log.error("Exception reason                 :{}", e.getMessage());
         throw new RemoteErrorException(e);
     }
 

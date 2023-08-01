@@ -23,15 +23,15 @@ public class RestTemplateLogInterceptor implements ClientHttpRequestInterceptor 
         stopWatch.start();
         ClientHttpResponse response = execution.execute(request, body);
         stopWatch.stop();
-        traceResponse(response, stopWatch.getLastTaskTimeMillis());
+        traceResponse(response, stopWatch.getTotalTimeMillis());
         return response;
     }
 
     private void traceRequest(HttpRequest request, byte[] body) throws IOException {
-        log.info(">>>>>> {} {}", request.getMethod(), request.getURI());
+        log.info(">>>>>>>> {} {}", request.getMethod(), request.getURI());
         log.info("Headers     : {}", request.getHeaders());
         log.info("Request body: {}", new String(body, "UTF-8"));
-        log.info(">>>>>> END ({}-byte body)", body.length);
+        log.info(">>>>>>>> END ({}-byte body)", body.length);
     }
 
     private void traceResponse(ClientHttpResponse response, long cost) throws IOException {
