@@ -16,16 +16,16 @@ import java.io.IOException;
 @Component
 public class LogMDCFilter extends OncePerRequestFilter {
 
-    private static final String KEY_REQUEST_ID = "X-Request-Id";
+    private static final String X_REQUEST_ID = "X-Request-Id";
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         try {
-            String requestId = request.getHeader(KEY_REQUEST_ID);
+            String requestId = request.getHeader(X_REQUEST_ID);
             MDCUtils.setRequestId(requestId);
 
             //将request-id写入响应头
-            response.addHeader(KEY_REQUEST_ID, requestId);
+            response.addHeader(X_REQUEST_ID, requestId);
             //传入其他过滤器
             chain.doFilter(request, response);
         } finally {

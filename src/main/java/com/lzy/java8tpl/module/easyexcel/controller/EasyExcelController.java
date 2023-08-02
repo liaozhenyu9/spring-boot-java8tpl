@@ -2,16 +2,14 @@ package com.lzy.java8tpl.module.easyexcel.controller;
 
 import com.alibaba.excel.util.ListUtils;
 import com.lzy.java8tpl.module.easyexcel.data.DemoData;
-import com.lzy.java8tpl.module.easyexcel.util.EasyExcelUtils;
+import com.lzy.java8tpl.util.EasyExcelUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("easyexcel")
