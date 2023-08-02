@@ -1,5 +1,6 @@
 package com.lzy.java8tpl.controller;
 
+import com.lzy.java8tpl.annotation.ExcludeControllerLog;
 import com.lzy.java8tpl.util.RestTemplateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
@@ -8,7 +9,6 @@ import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-
 import java.util.HashMap;
 
 @RestController
@@ -53,6 +53,7 @@ public class RestTemplateController {
     }
 
     @RequestMapping("test3")
+    @ExcludeControllerLog
     public String test3() {
         HashMap<String, String> header = new HashMap<>();
         header.put("X-header1", "sss");

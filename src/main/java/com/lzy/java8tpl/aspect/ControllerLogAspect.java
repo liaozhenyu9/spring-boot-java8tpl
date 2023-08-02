@@ -4,10 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.annotation.*;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
@@ -32,7 +29,7 @@ public class ControllerLogAspect {
         try {
             ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
             HttpServletRequest request = attributes.getRequest();
-            log.info("<======== REQUEST START {} {} {}", request.getMethod(), request.getRequestURL().toString(), request.getRemoteAddr());
+            log.info("<================ CONTROLLER START {} {} {}", request.getMethod(), request.getRequestURL().toString(), request.getRemoteAddr());
             log.info("Headers       : {}", JSON.toJSONString(this.getRequestHeader(request)));
             log.info("Request params: {}", JSON.toJSONString(this.getRequestParams(joinPoint)));
         } catch (Exception e) {
@@ -48,11 +45,16 @@ public class ControllerLogAspect {
         stopWatch.stop();
         try {
             log.info("Response params: {}", JSON.toJSONString(result));
-            log.info("========> RESPONSE END ({}ms)", stopWatch.getTotalTimeMillis());
+            log.info("================> CONTROLLER END ({}ms)", stopWatch.getTotalTimeMillis());
         } catch (Exception e) {
             log.error("An exception occurred while logging global request information:", e);
         }
         return result;
+    }
+
+    @AfterThrowing(pointcut = "controllerLogPointCut()", throwing = "ex")
+    public void doAfterThrowing(Throwable ex) {
+        log.error("================> CONTROLLER END WITH ERROR");
     }
 
     /**
