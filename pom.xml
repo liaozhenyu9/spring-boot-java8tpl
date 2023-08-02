@@ -16,6 +16,7 @@
         <knife4j.version>4.1.0</knife4j.version>
         <fastjson2.version>2.0.38</fastjson2.version>
         <easyexcel.version>3.3.2</easyexcel.version>
+        <hutool.version>5.8.21</hutool.version>
     </properties>
 
     <dependencies>
@@ -84,6 +85,12 @@
         <dependency>
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-httpclient</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-crypto</artifactId>
+            <version>${hutool.version}</version>
         </dependency>
 
     </dependencies>
