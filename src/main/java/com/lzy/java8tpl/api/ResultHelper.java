@@ -13,7 +13,7 @@ public class ResultHelper {
                 .setCode(ErrorCode.OK.getCode())
                 .setMsg(ErrorCode.OK.getMsg())
                 .setData(data)
-                .setTimestamp(System.currentTimeMillis());
+                .setTs(System.currentTimeMillis());
     }
 
     public static <T> Result<T> error(ErrorCode errorCode) {
@@ -33,7 +33,7 @@ public class ResultHelper {
                 .setCode(code)
                 .setMsg(msg)
                 .setRequestId(requestId)
-                .setTimestamp(System.currentTimeMillis());
+                .setTs(System.currentTimeMillis());
     }
 
     public static <T> Result<T> serviceError() {

@@ -12,6 +12,6 @@ public class Result<T> {
     private String code;
     private String msg;
     private T data;
-    private long timestamp;
+    private Long ts;
     private String requestId;
 }
