@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Configuration
-public class RestTemplateConfiguration {
+public class RestTemplateConfig {
 
     @Autowired
     private HttpPoolProperties httpPoolProperties;

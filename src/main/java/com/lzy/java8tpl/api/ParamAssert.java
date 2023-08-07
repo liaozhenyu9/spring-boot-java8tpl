@@ -134,4 +134,10 @@ public class ParamAssert {
         notEmpty(map, null);
     }
 
+    public static void checkBetween (long value, long min, long max, String message) {
+        if (value < min || value > max) {
+            throw new ParamErrorException(message);
+        }
+    }
+
 }

@@ -29,9 +29,9 @@ public class ControllerLogAspect {
         try {
             ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
             HttpServletRequest request = attributes.getRequest();
-            log.info("<================ CONTROLLER START {} {} {}", request.getMethod(), request.getRequestURL().toString(), request.getRemoteAddr());
-            log.info("Headers        : {}", JSON.toJSONString(this.getRequestHeader(request)));
-            log.info("Request params : {}", JSON.toJSONString(this.getRequestParams(joinPoint)));
+            log.info("<================ CONTROLLER START {}", request.getRequestURI());
+            log.info("Headers          : {}", JSON.toJSONString(this.getRequestHeader(request)));
+            log.info("Controller params: {}", JSON.toJSONString(this.getRequestParams(joinPoint)));
         } catch (Exception e) {
             log.error("An exception occurred while logging global request information:", e);
         }
@@ -44,7 +44,7 @@ public class ControllerLogAspect {
         Object result = proceedingJoinPoint.proceed();
         stopWatch.stop();
         try {
-            log.info("Response params: {}", JSON.toJSONString(result));
+            log.info("Controller return: {}", JSON.toJSONString(result));
             log.info("================> CONTROLLER END ({}ms)", stopWatch.getTotalTimeMillis());
         } catch (Exception e) {
             log.error("An exception occurred while logging global request information:", e);

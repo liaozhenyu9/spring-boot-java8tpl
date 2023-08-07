@@ -2,14 +2,15 @@ package com.lzy.java8tpl.api;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
+import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import java.net.SocketTimeoutException;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -17,66 +18,77 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(SocketTimeoutException.class)
-    public Result<Void> handleSocketTimeoutException(HttpServletRequest request, SocketTimeoutException ex) {
-        printErrorLog(request.getMethod(), request.getRequestURL().toString(), ex);
-        return ResultHelper.error(ErrorCode.REMOTE_ERROR, ex.getMessage());
+    //@RequestAttribute 修饰参数为空时会触发
+    @ExceptionHandler(ServletRequestBindingException.class)
+    public R<Void> handleServletRequestBindingException(HttpServletRequest request, ServletRequestBindingException ex) {
+        printErrorLog(request.getRequestURI(), ex);
+        return RHelper.paramError();
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public R<Void> handleHttpMessageNotReadableException(HttpServletRequest request, HttpMessageNotReadableException ex) {
+        printErrorLog(request.getRequestURI(), ex);
+        return RHelper.paramError("参数格式错误");
     }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
-    public Result<Void> handleMissingServletRequestParameterException(HttpServletRequest request, MissingServletRequestParameterException ex) {
-        printErrorLog(request.getMethod(), request.getRequestURL().toString(), ex);
-        return ResultHelper.paramError(ex.getMessage());
+    public R<Void> handleMissingServletRequestParameterException(HttpServletRequest request, MissingServletRequestParameterException ex) {
+        printErrorLog(request.getRequestURI(), ex);
+        return RHelper.paramError(ex.getMessage());
     }
 
     /**
      * 单个参数校验异常抛出ConstraintViolationException
      */
     @ExceptionHandler(ConstraintViolationException.class)
-    public Result<Void> handleConstraintViolationException(HttpServletRequest request, ConstraintViolationException ex) {
-        printErrorLog(request.getMethod(), request.getRequestURL().toString(), ex);
+    public R<Void> handleConstraintViolationException(HttpServletRequest request, ConstraintViolationException ex) {
+        printErrorLog(request.getRequestURI(), ex);
         String msg = ex.getConstraintViolations()
                 .stream()
                 .map(ConstraintViolation::getMessage)
                 .filter(Objects::nonNull)
                 .collect(Collectors.joining(", "));
-        return ResultHelper.paramError(msg);
+        return RHelper.paramError(msg);
     }
 
     /**
      * 使用form data, json方式调用接口，校验异常抛出 BindException
      */
     @ExceptionHandler(BindException.class)
-    public Result<Void> handleBindException(HttpServletRequest request, BindException ex) {
-        printErrorLog(request.getMethod(), request.getRequestURL().toString(), ex);
+    public R<Void> handleBindException(HttpServletRequest request, BindException ex) {
+        printErrorLog(request.getRequestURI(), ex);
         String msg = ex.getAllErrors().stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .filter(Objects::nonNull)
                 .collect(Collectors.joining(", "));
-        return ResultHelper.paramError(msg);
+        return RHelper.paramError(msg);
     }
 
     @ExceptionHandler(value = IllegalArgumentException.class)
-    public Result<Void> handleIllegalArgumentException(HttpServletRequest request, IllegalArgumentException ex) {
-        printErrorLog(request.getMethod(), request.getRequestURL().toString(), ex);
-        return ResultHelper.serviceError(ex.getMessage());
+    public R<Void> handleIllegalArgumentException(HttpServletRequest request, IllegalArgumentException ex) {
+        printErrorLog(request.getRequestURI(), ex);
+        return RHelper.serviceError(ex.getMessage());
     }
 
-    // 处理自定义异常
+    /**
+     * 处理自定义异常
+     */
     @ExceptionHandler(value = {ApiException.class})
-    public Result<Void> handleApiException(HttpServletRequest request, ApiException ex) {
-        printErrorLog(request.getMethod(), request.getRequestURL().toString(), ex);
-        return ResultHelper.error(ex.getCode(), ex.getMsg());
+    public R<Void> handleApiException(HttpServletRequest request, ApiException ex) {
+        printErrorLog(request.getRequestURI(), ex);
+        return RHelper.error(ex.getCode(), ex.getMsg());
     }
 
-    // 兜底处理
+    /**
+     * 处理自定义异常
+     */
     @ExceptionHandler(value = Throwable.class)
-    public Result<Void> handleThrowable(HttpServletRequest request, Throwable throwable) {
-        printErrorLog(request.getMethod(), request.getRequestURL().toString(), throwable);
-        return ResultHelper.serviceError();
+    public R<Void> handleThrowable(HttpServletRequest request, Throwable throwable) {
+        printErrorLog(request.getRequestURI(), throwable);
+        return RHelper.serviceError();
     }
 
-    public void printErrorLog(String method, String requestURL, Throwable throwable) {
-        log.error("[{}] {} [ex]", method, requestURL, throwable);
+    public void printErrorLog(String requestURI, Throwable throwable) {
+        log.error("{} [throwable]", requestURI, throwable);
     }
 }

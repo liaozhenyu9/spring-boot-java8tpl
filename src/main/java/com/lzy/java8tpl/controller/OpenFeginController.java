@@ -1,7 +1,7 @@
 package com.lzy.java8tpl.controller;
 
-import com.lzy.java8tpl.api.Result;
-import com.lzy.java8tpl.api.ResultHelper;
+import com.lzy.java8tpl.api.R;
+import com.lzy.java8tpl.api.RHelper;
 import com.lzy.java8tpl.client.JsonplaceholderClient;
 import com.lzy.java8tpl.client.LocalhostClient;
 import com.lzy.java8tpl.client.LotusClient;
@@ -31,30 +31,30 @@ public class OpenFeginController {
     private LocalhostClient localhostClient;
 
     @RequestMapping("/test1")
-    public Result<Object> test1() {
+    public R<Object> test1() {
 
         MDC.put("requestId", UUID.randomUUID().toString());
         log.info("test1..........");
         Object todos = jsonplaceholderClient.todos();
 
-        return ResultHelper.success(todos);
+        return RHelper.success(todos);
     }
 
     @RequestMapping("/test2")
-    public Result<Object> test2() {
+    public R<Object> test2() {
         MDC.put("requestId", UUID.randomUUID().toString());
         log.info("test2..........");
         lotusClient.unrecognizedPage(new UnrecognizedPageParam().setCurrent(0).setSize(10));
-        return ResultHelper.success();
+        return RHelper.success();
     }
 
     @RequestMapping("/test3")
-    public Result<Object> test3() {
+    public R<Object> test3() {
         MDC.put("requestId", UUID.randomUUID().toString());
         log.info("test3..........");
         Map<String, Object> map = new HashMap<>();
         map.put("sss", "aaa");
         Object o = localhostClient.test2(map);
-        return ResultHelper.success(o);
+        return RHelper.success(o);
     }
 }

@@ -10,6 +10,7 @@ public enum ErrorCode {
     //A 表示错误源于用户，例如参数错误、版本过低或支付超时。
     CLIENT_ERROR("A0001", "客户端错误"),
     PARAM_ERROR("A0002", "参数错误"),
+    SIGN_ERROR("A0003", "签名错误"),
     USER_NOT_FOUND("A0010", "用户不存在"),
     USER_ALREADY_EXISTS("A0011", "用户已存在"),
     USERNAME_PASSWORD_INCORRECT("A0012", "用户名或密码错误"),
