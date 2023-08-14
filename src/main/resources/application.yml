@@ -4,6 +4,23 @@ server:
 spring:
   profiles:
     active: REL
+  datasource:
+    druid:
+      filter:
+        slf4j:
+          enabled: true
+          statement-create-after-log-enabled: false
+          statement-close-after-log-enabled: false
+          result-set-open-after-log-enabled: false
+          result-set-close-after-log-enabled: false
+      xxx:
+        url: jdbc:mysql://localhost:3306/eqm?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
+        username: root
+        password: root
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        initial-size: 1
+        max-active: 15
+
 
 feign:
   httpclient:

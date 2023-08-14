@@ -12,6 +12,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         // 添加SignatureInterceptor拦截器，并指定拦截的路径
         registry.addInterceptor(new SignInterceptor("xxxxxxxx"))
-                .addPathPatterns("/**"); // 可以根据实际的请求路径进行配置
+                .addPathPatterns("/sign/**"); // 可以根据实际的请求路径进行配置
     }
 }

@@ -54,6 +54,9 @@
             <Logger name="com.lzy.java8tpl.client" level="DEBUG" additivity="false">
                 <AppenderRef ref="ConsoleAppender"/>
             </Logger>
+            <logger name="druid.sql.Statement" level="DEBUG" additivity="false">
+                <AppenderRef ref="ConsoleAppender"/>
+            </logger>
             <Root level="INFO">
                 <AppenderRef ref="ConsoleAppender"/>
             </Root>
@@ -65,6 +68,12 @@
                 <AppenderRef ref="DailyAppender"/>
                 <AppenderRef ref="ExceptionAppender"/>
             </Logger>
+
+            <logger name="druid.sql.Statement" level="DEBUG" additivity="false">
+                <AppenderRef ref="ConsoleAppender"/>
+                <AppenderRef ref="DailyAppender"/>
+                <AppenderRef ref="ExceptionAppender"/>
+            </logger>
 
             <Root level="INFO">
                 <AppenderRef ref="ConsoleAppender"/>
@@ -79,6 +88,11 @@
                 <AppenderRef ref="DailyAppender"/>
                 <AppenderRef ref="ExceptionAppender"/>
             </Logger>
+
+            <logger name="druid.sql.Statement" level="DEBUG" additivity="false">
+                <AppenderRef ref="DailyAppender"/>
+                <AppenderRef ref="ExceptionAppender"/>
+            </logger>
 
             <Root level="INFO">
                 <AppenderRef ref="DailyAppender"/>
