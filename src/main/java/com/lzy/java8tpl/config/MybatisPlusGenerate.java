@@ -57,23 +57,35 @@ public class MybatisPlusGenerate {
                 .strategyConfig(builder -> {
                     builder.addInclude(tables) // 设置需要生成的表名 可边长参数“user”, “user1”
 //                            .addTablePrefix("tb_", "gms_") // 设置过滤表前缀
-                            .serviceBuilder()//service策略配置
+                            //service策略配置
+                            .serviceBuilder()
                             .formatServiceFileName("%sService")
                             .formatServiceImplFileName("%sServiceImpl")
-                            .entityBuilder()// 实体类策略配置
+                            .enableFileOverride()   //覆盖已生成文件
+
+                            // 实体类策略配置
+                            .entityBuilder()
                             .idType(IdType.AUTO)//主键策略 雪花算法自动生成的id
                             .addTableFills(new Column("create_time", FieldFill.INSERT)) // 自动填充配置
                             .addTableFills(new Property("update_time", FieldFill.INSERT_UPDATE))
                             .enableLombok() //开启lombok
                             .logicDeleteColumnName("deleted")// 说明逻辑删除是哪个字段
                             .enableTableFieldAnnotation()// 属性加上注解说明
-                            .controllerBuilder() //controller 策略配置
+                            .enableFileOverride()   //覆盖已生成文件
+
+                            //controller 策略配置
+                            .controllerBuilder()
                             .formatFileName("%sController")
                             .enableRestStyle() // 开启RestController注解
-                            .mapperBuilder()// mapper策略配置
+                            .enableFileOverride()   //覆盖已生成文件
+
+                            // mapper策略配置
+                            .mapperBuilder()
                             .formatMapperFileName("%sMapper")
                             .enableMapperAnnotation()//@mapper注解开启
-                            .formatXmlFileName("%sMapper");
+                            .formatXmlFileName("%sMapper")
+                            .enableFileOverride();   //覆盖已生成文件
+
                 })
 
                 // 使用Freemarker引擎模板，默认的是Velocity引擎模板

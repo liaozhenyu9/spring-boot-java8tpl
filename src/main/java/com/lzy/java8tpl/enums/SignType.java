@@ -1,5 +1,6 @@
 package com.lzy.java8tpl.enums;
 
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,7 @@ public enum SignType implements IEnum<SignType, String>{
     HmacSHA256("HmacSHA256", "");
 
     @JsonValue
+    @EnumValue
     private final String value;
 
     private final String desc;

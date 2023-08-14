@@ -17,6 +17,7 @@
         <fastjson2.version>2.0.38</fastjson2.version>
         <easyexcel.version>3.3.2</easyexcel.version>
         <hutool.version>5.8.21</hutool.version>
+        <mybatis-plus.version>3.5.3.2</mybatis-plus.version>
     </properties>
 
     <dependencies>
@@ -108,13 +109,13 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.5.3.2</version>
+            <version>${mybatis-plus.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-generator</artifactId>
-            <version>3.5.3.2</version>
+            <version>${mybatis-plus.version}</version>
         </dependency>
 
         <dependency>
