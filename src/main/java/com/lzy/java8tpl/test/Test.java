@@ -1,8 +1,13 @@
 package com.lzy.java8tpl.test;
 
 import com.lzy.java8tpl.test.httpclient.IdleConnectionEvictorTest;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class Test {
+    public Test() {
+        log.info("test ....................");
+    }
 
     public static void main(String[] args) throws InterruptedException {
 
