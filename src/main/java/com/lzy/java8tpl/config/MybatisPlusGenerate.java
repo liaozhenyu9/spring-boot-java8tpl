@@ -1,12 +1,9 @@
 package com.lzy.java8tpl.config;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
-import com.baomidou.mybatisplus.generator.fill.Column;
-import com.baomidou.mybatisplus.generator.fill.Property;
 import java.util.*;
 
 public class MybatisPlusGenerate {
@@ -17,7 +14,7 @@ public class MybatisPlusGenerate {
 
     //数据库配置四要素
     private static String driverName = "com.mysql.cj.jdbc.Driver";
-    private static String url = "jdbc:mysql://localhost:3306/eqm?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC";
+    private static String url = "jdbc:mysql://localhost:3306/eqm?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai";
     private static String username = "root";
     private static String password = "root";
 
@@ -29,7 +26,7 @@ public class MybatisPlusGenerate {
                 .globalConfig(builder -> {
                     builder.author("abc") // 设置作者
                             .enableSwagger() // 开启 swagger 模式
-                            .fileOverride() // 覆盖已生成文件
+//                            .fileOverride() // 覆盖已生成文件，已迁移到策略配置中
                             .disableOpenDir() //禁止打开输出目录
                             .outputDir(System.getProperty("user.dir") + "/src/main/java"); // 指定输出目录
                 })
@@ -59,17 +56,17 @@ public class MybatisPlusGenerate {
 //                            .addTablePrefix("tb_", "gms_") // 设置过滤表前缀
                             //service策略配置
                             .serviceBuilder()
-                            .formatServiceFileName("%sService")
-                            .formatServiceImplFileName("%sServiceImpl")
+                            .formatServiceFileName("I%sDbService")
+                            .formatServiceImplFileName("%sDbServiceImpl")
                             .enableFileOverride()   //覆盖已生成文件
 
                             // 实体类策略配置
                             .entityBuilder()
                             .idType(IdType.AUTO)//主键策略 雪花算法自动生成的id
-                            .addTableFills(new Column("create_time", FieldFill.INSERT)) // 自动填充配置
-                            .addTableFills(new Property("update_time", FieldFill.INSERT_UPDATE))
+//                            .addTableFills(new Column("create_time", FieldFill.INSERT)) // 自动填充配置
+//                            .addTableFills(new Property("update_time", FieldFill.INSERT_UPDATE))
                             .enableLombok() //开启lombok
-                            .logicDeleteColumnName("deleted")// 说明逻辑删除是哪个字段
+//                            .logicDeleteColumnName("deleted")// 说明逻辑删除是哪个字段
                             .enableTableFieldAnnotation()// 属性加上注解说明
                             .enableFileOverride()   //覆盖已生成文件
 
@@ -93,5 +90,6 @@ public class MybatisPlusGenerate {
                 .templateEngine(new FreemarkerTemplateEngine())
                 .execute();
 
+        System.out.println("----------结束------------");
     }
 }

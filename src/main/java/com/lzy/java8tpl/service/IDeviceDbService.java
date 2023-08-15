@@ -9,8 +9,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author abc
- * @since 2023-08-14
+ * @since 2023-08-15
  */
-public interface DeviceService extends IService<Device> {
+public interface IDeviceDbService extends IService<Device> {
 
 }

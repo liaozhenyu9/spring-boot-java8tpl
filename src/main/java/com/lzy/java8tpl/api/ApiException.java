@@ -23,7 +23,7 @@ public class ApiException extends RuntimeException {
     }
 
     public ApiException(ErrorCode errorCode, String msg, Throwable cause) {
-        super(msg, cause);
+        super(Optional.ofNullable(msg).orElse(errorCode.getMsg()), cause);
         this.code = errorCode.getCode();
         this.msg = Optional.ofNullable(msg).orElse(errorCode.getMsg());
     }

@@ -2,7 +2,7 @@ package com.lzy.java8tpl.service.impl;
 
 import com.lzy.java8tpl.entity.Biz;
 import com.lzy.java8tpl.mapper.BizMapper;
-import com.lzy.java8tpl.service.BizService;
+import com.lzy.java8tpl.service.IBizDbService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author abc
- * @since 2023-08-14
+ * @since 2023-08-15
  */
 @Service
-public class BizServiceImpl extends ServiceImpl<BizMapper, Biz> implements BizService {
+public class BizDbServiceImpl extends ServiceImpl<BizMapper, Biz> implements IBizDbService {
 
 }
