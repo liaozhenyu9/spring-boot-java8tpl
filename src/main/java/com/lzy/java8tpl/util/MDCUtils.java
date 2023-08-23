@@ -7,6 +7,10 @@ import java.util.UUID;
 public class MDCUtils {
     public final static String REQUEST_ID = "requestId";
 
+    public static void setRequestId() {
+        MDC.put(REQUEST_ID, UUID.randomUUID().toString());
+    }
+
     public static void setRequestId(String requestId) {
         if (!StringUtils.hasText(requestId)) {
             requestId = UUID.randomUUID().toString();
