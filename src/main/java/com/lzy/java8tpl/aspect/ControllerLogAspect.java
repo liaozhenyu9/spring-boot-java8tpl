@@ -30,7 +30,6 @@ public class ControllerLogAspect {
             ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
             HttpServletRequest request = attributes.getRequest();
             log.info("<================ CONTROLLER START {}", request.getRequestURI());
-            log.info("Headers          : {}", JSON.toJSONString(this.getRequestHeader(request)));
             log.info("Controller params: {}", JSON.toJSONString(this.getRequestParams(joinPoint)));
         } catch (Exception e) {
             log.error("An exception occurred while logging global request information:", e);
