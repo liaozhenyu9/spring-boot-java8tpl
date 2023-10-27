@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public enum SignType implements IEnum<SignType, String>{
+public enum SignType implements IEnum<String>{
 
     HmacSHA256("HmacSHA256", "");
 
@@ -26,13 +26,14 @@ public enum SignType implements IEnum<SignType, String>{
         return desc;
     }
 
+
     @JsonCreator
     public static SignType fromValue(String value) {
-        for (SignType signType : SignType.values()) {
-            if (signType.value.equalsIgnoreCase(value)) {
-                return signType;
+        for (SignType e : SignType.values()) {
+            if (e.value.equalsIgnoreCase(value)) {
+                return e;
             }
         }
-        throw new IllegalArgumentException("Invalid SignType value: " + value);
+        return null;
     }
 }

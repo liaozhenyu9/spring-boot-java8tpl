@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
-public class JacksonStandardObj {
+public class StandardJacksonObj {
     @JsonProperty("order_no")
     private String orderNo;
 

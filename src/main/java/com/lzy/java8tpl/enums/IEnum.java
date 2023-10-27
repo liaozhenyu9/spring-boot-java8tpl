@@ -1,6 +1,6 @@
 package com.lzy.java8tpl.enums;
 
-public interface IEnum<E extends Enum<?>, T>{
+public interface IEnum<T>{
 
     T getValue();
 
