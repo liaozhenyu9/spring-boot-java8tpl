@@ -2,8 +2,8 @@ package com.lzy.java8tpl.test.jackson;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.lzy.java8tpl.test.enums.StandardEnum;
 import lombok.Data;
-
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -27,5 +27,8 @@ public class StandardJacksonObj {
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Timestamp timestamp;
+
+    @JsonProperty("standard_enum")
+    private StandardEnum standardEnum;
 
 }

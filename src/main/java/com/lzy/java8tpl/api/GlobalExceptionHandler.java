@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,6 +18,13 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    //http请求方法错误，常见post接口用了get请求
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public R<Void> handleHttpRequestMethodNotSupportedException(HttpServletRequest request, HttpRequestMethodNotSupportedException ex) {
+        printErrorLog(request.getRequestURI(), ex);
+        return RHelper.paramError("请求方法错误: " + ex.getMessage());
+    }
 
     //@RequestAttribute 修饰参数为空时会触发
     @ExceptionHandler(ServletRequestBindingException.class)
@@ -79,9 +87,6 @@ public class GlobalExceptionHandler {
         return RHelper.error(ex.getCode(), ex.getMsg());
     }
 
-    /**
-     * 处理自定义异常
-     */
     @ExceptionHandler(value = Throwable.class)
     public R<Void> handleThrowable(HttpServletRequest request, Throwable throwable) {
         printErrorLog(request.getRequestURI(), throwable);

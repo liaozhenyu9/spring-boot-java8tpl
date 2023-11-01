@@ -19,9 +19,9 @@ public enum StandardEnum implements IEnum<String> {
     private final String desc;
 
     @JsonCreator
-    public static TestType fromValue(String value) {
-        for (TestType e : TestType.values()) {
-            if (e.name().equalsIgnoreCase(value)) {
+    public static StandardEnum fromValue(String value) {
+        for (StandardEnum e : StandardEnum.values()) {
+            if (e.getValue().equalsIgnoreCase(value)) {
                 return e;
             }
         }
