@@ -11,9 +11,13 @@ public class Test {
 
     public static void main(String[] args) throws InterruptedException {
 
-        IdleConnectionEvictorTest.MyThread3 thread3 = new IdleConnectionEvictorTest.MyThread3();
-        thread3.start();
-        System.out.println("sdfsfsfd333434");
-        thread3.shutDown();
+//        IdleConnectionEvictorTest.MyThread3 thread3 = new IdleConnectionEvictorTest.MyThread3();
+//        thread3.start();
+//        System.out.println("sdfsfsfd333434");
+//        thread3.shutDown();
+
+
+        System.out.println(2 % 0);
+//        System.out.println(2 / 0);
     }
 }

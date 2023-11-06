@@ -10,7 +10,6 @@
 2. 注解：JacksonStandardObj中的注解：@JsonProperty, @JsonFormat
 
 总结：
-1.序列化最低要求有getter方法
-2.反序列化最低要求有getter或setter方法。只有getter方法的话需要规范的getter方法(如字段name -> getName), 不规范的话设置不了值(因为没有setter方法用于设置值)。
-有setter方法的话参考默认情况。
-3.尽量一定要有规范的getter和setter方法。
+1.尽量一定要有规范的getter和setter方法。
+2.序列化最低要求有getter方法
+3.反序列化最低要求有getter或setter方法。只有getter方法的话需要规范的getter方法(如字段name -> getName), 不规范的话设置不了值(因为没有setter方法用于设置值)。有setter方法的话参考默认情况。
