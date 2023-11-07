@@ -30,6 +30,23 @@ public class SortAlgorithmUtils {
         }
     }
 
+    public static void insertSort(int[] arr) {
+        if (arr == null || arr.length < 2) {
+            return;
+        }
+
+        for (int i = 1; i < arr.length; i++) {
+
+            for (int j = i; j > 0; j--) {
+                if (arr[j] < arr[j-1]) {
+                    swap(arr, j, j-1);
+                } else {
+                    break;
+                }
+            }
+        }
+    }
+
     public static void swap(int[] arr, int i, int j) {
         int tmp = arr[i];
         arr[i] = arr[j];
