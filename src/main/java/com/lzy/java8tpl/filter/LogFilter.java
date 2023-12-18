@@ -51,7 +51,7 @@ public class LogFilter extends OncePerRequestFilter {
             CachedBodyHttpServletRequest requestWrapper = new CachedBodyHttpServletRequest(request);
             ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(response);
 
-            log.info("<====== REQUEST [{}] [{}] [{}] [{}]", requestWrapper.getMethod(), requestWrapper.getRequestURI(), requestWrapper.getProtocol(), requestWrapper.getRemoteAddr());
+            log.info("<====== REQUEST [{}] [{}] [{}] [{}]", requestWrapper.getRequestURI(), requestWrapper.getMethod(), requestWrapper.getProtocol(), requestWrapper.getRemoteAddr());
             log.info("HEADERS            : {}", JSON.toJSONString(HttpUtils.getRequestHeader(requestWrapper)));
             log.info("REQUEST PARAMETERS : {}", JSON.toJSONString(requestWrapper.getParameterMap()));
             // 文件上传及GET请求不打印请求体
@@ -68,7 +68,7 @@ public class LogFilter extends OncePerRequestFilter {
             // remember to respond to the client with the cached data.
             responseWrapper.copyBodyToResponse();
             stopWatch.stop();
-            log.info("======> RESPONSE [{}] [{}] [{}] ({}ms)", responseWrapper.getStatus(), responseWrapper.getContentType(), requestWrapper.getRequestURI(), stopWatch.getTotalTimeMillis());
+            log.info("======> RESPONSE [{}] [{}] [{}] ({}ms)", requestWrapper.getRequestURI(), responseWrapper.getStatus(), responseWrapper.getContentType(), stopWatch.getTotalTimeMillis());
         } finally {
             MDC.clear();
         }
