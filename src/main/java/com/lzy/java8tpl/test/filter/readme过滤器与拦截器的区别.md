@@ -4,3 +4,8 @@
 
 ## 统一接口日志打印
 参考博客：https://mp.weixin.qq.com/s/SEmj4t_Ih5wJPL6MLoKi_w
+
+
+## 如何在过滤器中日志打印请求和返回参数
+参考：https://www.springcloud.io/post/2022-03/record-request-and-response-bodies/#gsc.tab=0
+及：https://www.baeldung.com/spring-reading-httpservletrequest-multiple-times
