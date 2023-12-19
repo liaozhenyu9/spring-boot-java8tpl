@@ -1,5 +1,7 @@
 ## 过滤器和拦截器的区别
 参考链接，里面有几张比较经典的图片：https://blog.csdn.net/weixin_50205273/article/details/109547019
+* 过滤器包着servlet容器包着拦截器包装控制器
+* 先调用Filter pre 方法 -> Servlet service() 方法 -> 拦截器preHandle方法 -> controller -> 拦截器的postHandle -> 拦截器的afterCompletion -> Filter After方法
 
 
 ## 统一接口日志打印

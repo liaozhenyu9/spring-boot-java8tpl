@@ -27,7 +27,7 @@ import java.util.*;
 @Slf4j
 public class LogFilter extends OncePerRequestFilter {
 
-    private static final String X_REQUEST_ID = "X-Request-Id";
+    public static final String X_REQUEST_ID = "X-Request-Id";
 
     private static final Set<String> IGNORE_PATHS = Collections.unmodifiableSet(new HashSet<>(
             Arrays.asList("/**/swagger-ui/**", "/**/swagger-resources/**", "/**/api-docs", "/**/webjars/**")));
