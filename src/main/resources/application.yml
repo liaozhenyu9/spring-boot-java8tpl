@@ -7,7 +7,7 @@ spring:
   datasource:
     druid:
       filter:
-        slf4j:
+        slf4j:  #日志配置
           enabled: true
           statement-create-after-log-enabled: false
           statement-close-after-log-enabled: false
@@ -20,6 +20,50 @@ spring:
         driver-class-name: com.mysql.cj.jdbc.Driver
         initial-size: 1
         max-active: 15
+  cloud:
+    function:
+      definition: consumer1;consumer2  #告诉Spring Cloud，这些都是用于函数处理的Bean
+    stream:
+      kafka:
+        binder:
+          brokers: 120.25.177.66:9092 #broker列表，一个broker表示一个kafka服务器。
+#      binders:
+#        defaultKafka:
+#          type: kafka
+#          environment:
+#            spring:
+#              cloud:
+#                stream:
+#                  kafka:
+#                    binder:
+#                      brokers: 120.25.177.66:9092 #broker列表，一个broker表示一个kafka服务器。
+      bindings:
+        supplier1-out-0:
+          destination: supplierTest1
+        supplier2-out-0:
+          destination: supplierTest2
+
+        consumer1-in-0:
+          destination: supplierTest1
+          group: consumer1Group
+        consumer2-in-0:
+          destination: supplierTest2
+          group: consumer2Group
+
+#        produceUser-out-0:
+#          binder: defaultKafka
+#          destination: produceUserTopic
+#        processUser-in-0:
+#          binder: defaultKafka
+#          destination: produceUserTopic
+#          group: processUserGroup
+#        processUser-out-0:
+#          binder: defaultKafka
+#          destination: processUserTopic
+#        consumerUser-in-0:
+#          binder: defaultKafka
+#          destination: processUserTopic
+#          group: consumerUserGroup
 
 
 feign:
