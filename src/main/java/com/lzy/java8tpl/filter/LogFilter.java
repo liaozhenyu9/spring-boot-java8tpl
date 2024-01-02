@@ -39,6 +39,7 @@ public class LogFilter extends OncePerRequestFilter {
         try {
             String requestId = request.getHeader(X_REQUEST_ID);
             MDCUtils.setRequestId(requestId);
+            Map<String, String[]> requestParams = request.getParameterMap();
             // 忽略指定url
             String path = request.getRequestURI().substring(request.getContextPath().length()).replaceAll("[/]+$", "");
             boolean isIgnore = IGNORE_PATHS.stream().anyMatch(ignore -> matcher.match(ignore, path));
@@ -53,7 +54,7 @@ public class LogFilter extends OncePerRequestFilter {
 
             log.info("<====== REQUEST [{}] [{}] [{}] [{}]", requestWrapper.getRequestURI(), requestWrapper.getMethod(), requestWrapper.getProtocol(), requestWrapper.getRemoteAddr());
             log.info("HEADERS            : {}", JSON.toJSONString(HttpUtils.getRequestHeader(requestWrapper)));
-            log.info("REQUEST PARAMETERS : {}", JSON.toJSONString(requestWrapper.getParameterMap()));
+            log.info("REQUEST PARAMETERS : {}", JSON.toJSONString(requestParams));
             // 文件上传及GET请求不打印请求体
             if (!HttpUtils.isFileUploadContentType(requestWrapper) && !"GET".equalsIgnoreCase(requestWrapper.getMethod())) {
                 log.info("[{}] REQUEST BODY = {}", requestWrapper.getRequestURI(), requestWrapper.getBodyString());
