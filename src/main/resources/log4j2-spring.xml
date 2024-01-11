@@ -21,7 +21,7 @@
                      fileName="${daily-file}"
                      filePattern="${daily-file}%d{yyyyMMdd}-%i.log.gz">
             <PatternLayout>
-                <pattern>[%d][%X{requestId}][%p] (%F:%L) - %m%n%throwable</pattern>
+                <pattern>[%d][%X{requestId}][%t][%p] (%F:%L) - %m%n%throwable</pattern>
             </PatternLayout>
             <Policies>
                 <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
