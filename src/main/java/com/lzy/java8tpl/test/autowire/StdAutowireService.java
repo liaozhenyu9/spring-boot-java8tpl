@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class StandardAutowireService {
+public class StdAutowireService {
 
     @NonNull
     private static String key;

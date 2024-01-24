@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(classes = SpringBootJava8tplApplication.class)  //指定SpringBoot项目的启动类
 @ActiveProfiles("REL")  //指定项目使用的配置文件
 @Slf4j
-public class StandardTests {
+public class StdTests {
 
     @Autowired
     private EnumController enumController;

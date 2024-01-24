@@ -21,7 +21,7 @@ public class JacksonController {
     }
 
     @PostMapping("2")
-    public R test2(@RequestBody StandardJacksonObj param) {
+    public R test2(@RequestBody StdJacksonObj param) {
         log.info("req param:{}", JSON.toJSONString(param));
         log.info("2323232");
         return RHelper.success(param);

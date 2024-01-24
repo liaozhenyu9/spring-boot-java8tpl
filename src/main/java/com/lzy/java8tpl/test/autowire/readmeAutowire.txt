@@ -26,5 +26,5 @@ final + 构造器注入
 
 总结：
 1. 优先使用final + 构造器注入
-2. 尽量一定统一使用final不用@NonNull，需要注入的final属性一定不能有初始值，不需要注入的final属性一定加上初始值。
+2. 尽量一定统一使用final而不用@NonNull，需要注入的final属性一定不能有初始值，不需要注入的final属性一定加上初始值。
 3. 尽量一定只有一个构造函数，也就是只有@RequiredArgsConstructor生成的构造函数

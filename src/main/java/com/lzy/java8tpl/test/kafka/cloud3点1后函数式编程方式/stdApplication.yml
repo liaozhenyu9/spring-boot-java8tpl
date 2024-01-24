@@ -1,0 +1,19 @@
+
+spring:
+  cloud:
+    function:
+      definition: strConsumer;userConsumer  #告诉Spring Cloud，这些都是用于函数处理的Bean
+    stream:
+      kafka:
+        binder:
+          brokers: 120.25.177.66:9092 #broker列表，一个broker表示一个kafka服务器。(集群的话用逗号分隔如：172.17.0.2:9092,172.17.0.3:9092,172.17.0.4:9092)
+      bindings:
+        producerUser-out-0:
+          destination: test_create_user
+
+        strConsumer-in-0:
+          destination: test_create_user
+          group: strConsumerGroup
+        userConsumer-in-0:
+          destination: test_create_user
+          group: userConsumerGroup

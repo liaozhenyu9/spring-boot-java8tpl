@@ -22,7 +22,7 @@ spring:
         max-active: 15
   cloud:
     function:
-      definition: consumer1;consumer2  #告诉Spring Cloud，这些都是用于函数处理的Bean
+      definition: consumer1;consumer2;strConsumer;userConsumer  #告诉Spring Cloud，这些都是用于函数处理的Bean
     stream:
       kafka:
         binder:
@@ -49,6 +49,15 @@ spring:
         consumer2-in-0:
           destination: supplierTest2
           group: consumer2Group
+
+        producerUser-out-0:
+          destination: test_create_user
+        strConsumer-in-0:
+          destination: test_create_user
+          group: strConsumerGroup
+        userConsumer-in-0:
+          destination: test_create_user
+          group: userConsumerGroup
 
 #        produceUser-out-0:
 #          binder: defaultKafka

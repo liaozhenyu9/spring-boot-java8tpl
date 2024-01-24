@@ -9,17 +9,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("autowire")
 @RequiredArgsConstructor
-public class StandardAutowireController {
+public class StdAutowireController {
 
-    private final StandardAutowireService standardAutowireService;
+    private final StdAutowireService stdAutowireService;
 
     private final AutowireService autowireService;
 
     @RequestMapping("1")
     public R test1() {
-        new StandardAutowireService(new AutowireDao());
+        new StdAutowireService(new AutowireDao());
 
-        standardAutowireService.test();
+        stdAutowireService.test();
         autowireService.test();
         return RHelper.success();
     }

@@ -8,7 +8,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum StandardEnum implements IEnum<String> {
+public enum StdEnum implements IEnum<String> {
     A("1", "A"),
     B("2", "B"),
     ;
@@ -19,8 +19,8 @@ public enum StandardEnum implements IEnum<String> {
     private final String desc;
 
     @JsonCreator
-    public static StandardEnum fromValue(String value) {
-        for (StandardEnum e : StandardEnum.values()) {
+    public static StdEnum fromValue(String value) {
+        for (StdEnum e : StdEnum.values()) {
             if (e.getValue().equalsIgnoreCase(value)) {
                 return e;
             }

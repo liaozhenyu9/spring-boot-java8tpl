@@ -15,14 +15,19 @@
 * 这里先考虑使用spring cloud stream, 也可以使用spring-kafka包。
 * 获取文档，google搜索Spring Cloud Stream，找到官网链接：https://spring.io/projects/spring-cloud-stream#learn
 * 根据springboot版本找到对应合适的版本，在LEARN标签菜单下，找到该版本，点击Reference Doc 进入开放文档：https://docs.spring.io/spring-cloud-stream/docs/3.2.10/reference/html/spring-cloud-stream-binder-kafka.html#_apache_kafka_binder
-* 发现文档里有Apache Kafka Binder 和 Kafka Streams Binder 两种方式，这里先用Apache Kafka Binder
+* 发现文档里有Apache Kafka Binder 和 Kafka Streams Binder 两种方式分别对应两个pom，两个都可以用，这里先用Apache Kafka Binder
 * SpringCloud 3.1版本之后，@EnableBinding、@Output等StreamApi注解都标记为废弃，改用函数式编程方式
+
 ### 主要用到了3个函数式接口
+说明参考：https://docs.spring.io/spring-cloud-stream/docs/3.1.0/reference/html/spring-cloud-stream.html#spring-cloud-stream-overview-producing-consuming-messages
+Spring Cloud Function提供的支持：从 Spring Cloud Stream v2.1，可以使用Spring Cloud Function 内置支持的三个函数式接口来定义 stream handlers 和 sources，然后配置spring.cloud.function.definition
+来说明哪个Functional bean 对应哪个binding
 Supplier Function Consumer
 函数式接口是什么：函数式接口就是一个有且仅有一个抽象方法，但是可以有多个非抽象方法的接口。函数式接口可以被隐式转换为 lambda 表达式。
 * Supplier<T> : 无参数，返回一个结果。
 * Function<T,R> : 接受一个输入参数，返回一个结果。
 * Consumer<T> : 代表了接受一个输入参数并且无返回的操作。
+
 ### 集成步骤(函数式编程)
 1. 引入依赖spring-cloud-stream-binder-kafka 或 spring-cloud-starter-stream-kafka
 ````
@@ -40,7 +45,7 @@ spring:
     stream:
       kafka:
         binder:
-          # kafka的Ip和端口，可以是集群
+          # kafka的Ip和端口，可以是集群, (集群的话用逗号分隔如：172.17.0.2:9092,172.17.0.3:9092,172.17.0.4:9092)
           brokers: ip:port
 ````
 方式二：有多个kafka实例
@@ -136,3 +141,10 @@ public class KafkaTestController {
     }
 }
 ```
+
+## 总结
+springCloud3.1 后推荐使用内置的函数式编程的方式，原注解方式标记成了废弃但也可以用。
+一个binder就代表一个kafka实例，binding 就是用于连接业务函数和binder的桥，broker代表一个kafka服务器，比如集群情况下一个kafka binder 对应多个broker。
+生产消息使用StreamBridge，消费消息使用Consumer，Supplier和Function很少用到。
+消费者写法：@Bean创建个Consumer 里面写消费逻辑，然后将bean名称配到spring.cloud.function.definition 中，最后再配置binding。
+生产写法：先配置一个生产者biding，然后使用StreamBridge往这个binding发送消息。

@@ -18,8 +18,6 @@ public class HmacSha256Test {
 
         String s2 = SecureUtil.hmacSha256().digestHex("aaa");
 
-
-
         System.out.println("sign:-------" + s + "=======" + s2);
 
         HashMap<String, String> params = new HashMap<>();
