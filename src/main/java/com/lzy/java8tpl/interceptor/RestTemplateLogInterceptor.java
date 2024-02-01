@@ -47,6 +47,6 @@ public class RestTemplateLogInterceptor implements ClientHttpRequestInterceptor 
         log.info("<<<<<<<< {} ({}ms)", response.getStatusCode(), cost);
         log.info("Headers      : {}", response.getHeaders());
         log.info("Response body: {}", responseStr);
-        log.info("<<<<<<<< END ({}-byte body)", responseStr.getBytes(StandardCharsets.UTF_8).length);
+        log.info("<<<<<<<< END ({}-length body)", responseStr.length());
     }
 }
