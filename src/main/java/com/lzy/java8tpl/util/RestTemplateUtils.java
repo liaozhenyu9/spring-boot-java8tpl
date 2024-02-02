@@ -18,11 +18,14 @@ public class RestTemplateUtils {
 
     private static RestTemplate restTemplate;
 
-    @Resource
-    public void setRestTemplate(RestTemplate restTemplate) {
+    public static void setRestTemplateStatic(RestTemplate restTemplate) {
         RestTemplateUtils.restTemplate = restTemplate;
     }
 
+    @Resource
+    public void setRestTemplate(RestTemplate restTemplate) {
+        setRestTemplateStatic(restTemplate);
+    }
 
     public static <T> ResponseEntity<T> get(String url, Class<T> responseType) {
         try {

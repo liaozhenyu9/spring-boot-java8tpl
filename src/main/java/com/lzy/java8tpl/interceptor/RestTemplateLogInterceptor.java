@@ -1,7 +1,6 @@
 package com.lzy.java8tpl.interceptor;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
@@ -10,7 +9,7 @@ import org.springframework.util.StopWatch;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class RestTemplateLogInterceptor implements ClientHttpRequestInterceptor {
@@ -35,18 +34,12 @@ public class RestTemplateLogInterceptor implements ClientHttpRequestInterceptor 
     }
 
     private void traceResponse(ClientHttpResponse response, long cost) throws IOException {
-        StringBuilder inputStringBuilder = new StringBuilder();
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getBody(), "UTF-8"));
-        String line = bufferedReader.readLine();
-        while (line != null) {
-            inputStringBuilder.append(line);
-            line = bufferedReader.readLine();
+        try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(response.getBody(), "UTF-8"))) {
+            String responseStr = bufferedReader.lines().collect(Collectors.joining("\n"));
+            log.info("<<<<<<<< {} ({}ms)", response.getStatusCode(), cost);
+            log.info("Headers      : {}", response.getHeaders());
+            log.info("Response body: {}", responseStr);
+            log.info("<<<<<<<< END ({}-length body)", responseStr.length());
         }
-
-        String responseStr = IOUtils.toString(response.getBody(), StandardCharsets.UTF_8);
-        log.info("<<<<<<<< {} ({}ms)", response.getStatusCode(), cost);
-        log.info("Headers      : {}", response.getHeaders());
-        log.info("Response body: {}", responseStr);
-        log.info("<<<<<<<< END ({}-length body)", responseStr.length());
     }
 }
