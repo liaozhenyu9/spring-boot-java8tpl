@@ -63,7 +63,7 @@ public class LogFilter extends OncePerRequestFilter {
             chain.doFilter(requestWrapper, responseWrapper);
             //将request-id写入响应头
             responseWrapper.addHeader(X_REQUEST_ID, requestId);
-            if (HttpUtils.isJsonResponse(responseWrapper)) {
+            if (HttpUtils.isContentTypeContainingJson(responseWrapper)) {
                 log.info("[{}] RESPONSE BODY = {}", requestWrapper.getRequestURI(), new String(responseWrapper.getContentAsByteArray(), StandardCharsets.UTF_8));
             }
             // remember to respond to the client with the cached data.

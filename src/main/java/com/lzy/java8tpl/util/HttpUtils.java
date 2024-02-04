@@ -1,6 +1,8 @@
 package com.lzy.java8tpl.util;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.client.ClientHttpResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,10 +32,14 @@ public class HttpUtils {
         return false;
     }
 
-    public static boolean isJsonResponse(HttpServletResponse response) {
+    public static boolean isContentTypeContainingJson(HttpServletResponse response) {
         String contentType = response.getContentType();
         return contentType != null && contentType.contains("application/json");
     }
 
+    public static boolean isContentTypeContainingHtml(ClientHttpResponse response) {
+        HttpHeaders headers = response.getHeaders();
+        return headers != null && headers.getFirst(HttpHeaders.CONTENT_TYPE) != null && headers.getFirst(HttpHeaders.CONTENT_TYPE).contains("text/html");
+    }
 
 }

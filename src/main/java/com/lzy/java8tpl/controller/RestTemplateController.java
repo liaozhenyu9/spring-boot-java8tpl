@@ -58,14 +58,14 @@ public class RestTemplateController {
         header.put("X-header2", "2222");
 
         ParameterizedTypeReference<String> typeReference = new ParameterizedTypeReference<String>(){};
-        ResponseEntity<String> stringResponseEntity = RestTemplateUtils.post("http://localhost:8090/test/2", null, typeReference);
+        ResponseEntity<String> stringResponseEntity = RestTemplateUtils.post("http://localhost:8080/test/1", null, typeReference);
         String body = stringResponseEntity.getBody();
         return body;
     }
 
     @RequestMapping("test4")
     public String test4() {
-        ResponseEntity<String> stringResponseEntity = RestTemplateUtils.get("http://localhost:8090/test/2", String.class);
+        ResponseEntity<String> stringResponseEntity = RestTemplateUtils.get("http://localhost:8080/test/1", String.class);
         return "test4";
     }
 }

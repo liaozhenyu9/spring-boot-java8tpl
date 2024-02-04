@@ -1,5 +1,7 @@
 package com.lzy.java8tpl.interceptor;
 
+import com.lzy.java8tpl.util.HttpUtils;
+import com.lzy.java8tpl.util.StrUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
@@ -38,7 +40,7 @@ public class RestTemplateLogInterceptor implements ClientHttpRequestInterceptor 
             String responseStr = bufferedReader.lines().collect(Collectors.joining("\n"));
             log.info("<<<<<<<< {} ({}ms)", response.getStatusCode(), cost);
             log.info("Headers      : {}", response.getHeaders());
-            log.info("Response body: {}", responseStr);
+            log.info("Response body: {}", !HttpUtils.isContentTypeContainingHtml(response) ? responseStr : StrUtils.truncateString(responseStr, 1000).concat("...[Content truncated due to length limit]"));
             log.info("<<<<<<<< END ({}-length body)", responseStr.length());
         }
     }
