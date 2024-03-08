@@ -10,7 +10,6 @@ import org.apache.http.conn.socket.ConnectionSocketFactory;
 import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.DefaultConnectionKeepAliveStrategy;
-import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicHeader;
@@ -73,7 +72,7 @@ public class RestTemplateConfig {
                 .evictExpiredConnections()  //使用后台线程主动从连接池中驱逐过期的连接
                 .evictIdleConnections(httpPoolProperties.getMaxIdleTime(), TimeUnit.MILLISECONDS)   //使用后台线程主动从连接池中驱逐空闲连接
                 .setKeepAliveStrategy(new DefaultConnectionKeepAliveStrategy())
-                .setRetryHandler(new DefaultHttpRequestRetryHandler(2, true))
+                .disableAutomaticRetries()
                 .build();
     }
 

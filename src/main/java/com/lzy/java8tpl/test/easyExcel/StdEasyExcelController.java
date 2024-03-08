@@ -1,6 +1,8 @@
 package com.lzy.java8tpl.test.easyExcel;
 
 import com.alibaba.excel.EasyExcel;
+import com.lzy.java8tpl.test.easyExcel.sql.AlgoProduct;
+import com.lzy.java8tpl.test.easyExcel.sql.AlgoProductUploadDataListener;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +28,12 @@ public class StdEasyExcelController {
     @PostMapping("upload")
     public String upload(MultipartFile file) throws IOException {
         EasyExcel.read(file.getInputStream(), StdUploadData.class, new StdUploadDataListener()).sheet().doRead();
+        return "success";
+    }
+
+    @PostMapping("algoProduct")
+    public String algoProduct(MultipartFile file) throws IOException {
+        EasyExcel.read(file.getInputStream(), AlgoProduct.class, new AlgoProductUploadDataListener()).sheet().doRead();
         return "success";
     }
 }

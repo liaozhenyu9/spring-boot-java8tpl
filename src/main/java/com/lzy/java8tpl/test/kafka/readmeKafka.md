@@ -121,8 +121,8 @@ spring:
     stream:
       supplier1-out-0:
         destination: supplierTest1
-        supplier2-out-0:
-          destination: supplierTest2
+      supplier2-out-0:
+        destination: supplierTest2
 ```
 7. 用StreamBridge使用生产者binding发送消息
 ```java
@@ -141,6 +141,15 @@ public class KafkaTestController {
     }
 }
 ```
+8. 其它配置
++ ackMode 应答模式，是一个枚举，枚举值参考：https://blog.csdn.net/lixinkuan328/article/details/108848846，
+官网说明：https://docs.spring.io/spring-cloud-stream/docs/3.2.10/reference/html/spring-cloud-stream-binder-kafka.html#kafka-consumer-properties
+4.1.0版本：https://docs.spring.io/spring-cloud-stream/reference/kafka/kafka_overview.html
+```text
+Specify the container ack mode. This is based on the AckMode enumeration defined in Spring Kafka. 
+If ackEachRecord property is set to true and consumer is not in batch mode, 
+then this will use the ack mode of RECORD, otherwise, use the provided ack mode using this property.
+```
 
 ## 总结
 springCloud3.1 后推荐使用内置的函数式编程的方式，原注解方式标记成了废弃但也可以用。
@@ -148,3 +157,5 @@ springCloud3.1 后推荐使用内置的函数式编程的方式，原注解方�
 生产消息使用StreamBridge，消费消息使用Consumer，Supplier和Function很少用到。
 消费者写法：@Bean创建个Consumer 里面写消费逻辑，然后将bean名称配到spring.cloud.function.definition 中，最后再配置binding。
 生产写法：先配置一个生产者biding，然后使用StreamBridge往这个binding发送消息。
+
+不使用springcloud时，参考：https://zhuanlan.zhihu.com/p/650776809

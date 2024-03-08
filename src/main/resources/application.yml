@@ -96,7 +96,7 @@ http:
       connectionRequestTimeout: 10000 #从连接池中获取到连接的超时时间
       connectTimeout: 15000 #客户端创建连接超时时间
       socketTimeout: 60000  #服务端响应超时时间
-      validateAfterInactivity: 1800000  #不活跃连接校验时间，使用连接时如果连接的空闲的时间超过该时间会先校验连接是否有效 (30分钟)
+      validateAfterInactivity: 120000  #不活跃连接校验时间，使用连接时如果连接的空闲的时间超过该时间会先校验连接是否有效 (2分钟)
       connTimeToLive: 3600000  #连接最大存活时间 (1小时)
       maxIdleTime: 1200000 #连接最大的空闲时间，空闲多久会被后台线程清除掉  (20分钟)
 
