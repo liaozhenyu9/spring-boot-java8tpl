@@ -23,26 +23,26 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public R<Void> handleHttpRequestMethodNotSupportedException(HttpServletRequest request, HttpRequestMethodNotSupportedException ex) {
         printErrorLog(request.getRequestURI(), ex);
-        return RHelper.paramError("请求方法错误: " + ex.getMessage());
+        return R.paramError("请求方法错误: " + ex.getMessage());
     }
 
     //@RequestAttribute 修饰参数为空时会触发
     @ExceptionHandler(ServletRequestBindingException.class)
     public R<Void> handleServletRequestBindingException(HttpServletRequest request, ServletRequestBindingException ex) {
         printErrorLog(request.getRequestURI(), ex);
-        return RHelper.paramError();
+        return R.paramError();
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public R<Void> handleHttpMessageNotReadableException(HttpServletRequest request, HttpMessageNotReadableException ex) {
         printErrorLog(request.getRequestURI(), ex);
-        return RHelper.paramError("参数格式错误");
+        return R.paramError("参数格式错误");
     }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public R<Void> handleMissingServletRequestParameterException(HttpServletRequest request, MissingServletRequestParameterException ex) {
         printErrorLog(request.getRequestURI(), ex);
-        return RHelper.paramError(ex.getMessage());
+        return R.paramError(ex.getMessage());
     }
 
     /**
@@ -56,7 +56,7 @@ public class GlobalExceptionHandler {
                 .map(ConstraintViolation::getMessage)
                 .filter(Objects::nonNull)
                 .collect(Collectors.joining(", "));
-        return RHelper.paramError(msg);
+        return R.paramError(msg);
     }
 
     /**
@@ -69,13 +69,13 @@ public class GlobalExceptionHandler {
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .filter(Objects::nonNull)
                 .collect(Collectors.joining(", "));
-        return RHelper.paramError(msg);
+        return R.paramError(msg);
     }
 
     @ExceptionHandler(value = IllegalArgumentException.class)
     public R<Void> handleIllegalArgumentException(HttpServletRequest request, IllegalArgumentException ex) {
         printErrorLog(request.getRequestURI(), ex);
-        return RHelper.serviceError(ex.getMessage());
+        return R.serviceError(ex.getMessage());
     }
 
     /**
@@ -84,13 +84,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = {ApiException.class})
     public R<Void> handleApiException(HttpServletRequest request, ApiException ex) {
         printErrorLog(request.getRequestURI(), ex);
-        return RHelper.error(ex.getCode(), ex.getMsg());
+        return R.error(ex.getCode(), ex.getMsg());
     }
 
     @ExceptionHandler(value = Throwable.class)
     public R<Void> handleThrowable(HttpServletRequest request, Throwable throwable) {
         printErrorLog(request.getRequestURI(), throwable);
-        return RHelper.serviceError();
+        return R.serviceError();
     }
 
     public void printErrorLog(String requestURI, Throwable throwable) {

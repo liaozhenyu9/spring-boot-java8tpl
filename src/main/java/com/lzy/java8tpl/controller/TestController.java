@@ -1,7 +1,6 @@
 package com.lzy.java8tpl.controller;
 
 import com.lzy.java8tpl.api.R;
-import com.lzy.java8tpl.api.RHelper;
 import com.lzy.java8tpl.entity.Biz;
 import com.lzy.java8tpl.entity.Device;
 import com.lzy.java8tpl.service.impl.DeviceDbServiceImpl;
@@ -29,13 +28,13 @@ public class TestController {
 //        log.info("test1......");
 //        Thread.sleep(5000);
         service.list();
-        return RHelper.success(new Device());
+        return R.ok(new Device());
     }
 
     @RequestMapping("2")
     @ApiOperation(value = "测试接口2", notes = "测试2")
     public R test2() throws InterruptedException {
         log.info("test2......");
-        return RHelper.success(new Biz());
+        return R.ok(new Biz());
     }
 }

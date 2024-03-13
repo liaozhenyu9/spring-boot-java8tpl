@@ -1,7 +1,6 @@
 package com.lzy.java8tpl.test.kafka;
 
 import com.lzy.java8tpl.api.R;
-import com.lzy.java8tpl.api.RHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +19,6 @@ public class KafkaTestController {
         streamBridge.send("supplier1-out-0", "aaaaaaaaaaaaaaaaaaaaa");
 
         streamBridge.send("supplier2-out-0", "bbbbbbbbbbbbbbbbbbbbb");
-        return RHelper.success();
+        return R.ok();
     }
 }

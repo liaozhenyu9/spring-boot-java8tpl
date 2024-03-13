@@ -49,11 +49,10 @@ public class LogFilter extends OncePerRequestFilter {
             }
             StopWatch stopWatch = new StopWatch();
             stopWatch.start();
+            log.info("<====== REQUEST [{}] [{}] [{}] [{}]", request.getRequestURI(), request.getMethod(), request.getProtocol(), request.getRemoteAddr());
+            log.info("HEADERS            : {}", JSON.toJSONString(HttpUtils.getRequestHeader(request)));
             CachedBodyHttpServletRequest requestWrapper = new CachedBodyHttpServletRequest(request);
             ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(response);
-
-            log.info("<====== REQUEST [{}] [{}] [{}] [{}]", requestWrapper.getRequestURI(), requestWrapper.getMethod(), requestWrapper.getProtocol(), requestWrapper.getRemoteAddr());
-            log.info("HEADERS            : {}", JSON.toJSONString(HttpUtils.getRequestHeader(requestWrapper)));
             log.info("REQUEST PARAMETERS : {}", JSON.toJSONString(requestParams));
             // 文件上传及GET请求不打印请求体
             if (!HttpUtils.isFileUploadContentType(requestWrapper) && !"GET".equalsIgnoreCase(requestWrapper.getMethod())) {

@@ -1,7 +1,6 @@
 package com.lzy.java8tpl.controller;
 
 import com.lzy.java8tpl.api.R;
-import com.lzy.java8tpl.api.RHelper;
 import com.lzy.java8tpl.client.JsonplaceholderClient;
 import com.lzy.java8tpl.client.LocalhostClient;
 import com.lzy.java8tpl.client.LotusClient;
@@ -11,7 +10,6 @@ import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -37,7 +35,7 @@ public class OpenFeginController {
         log.info("test1..........");
         Object todos = jsonplaceholderClient.todos();
 
-        return RHelper.success(todos);
+        return R.ok(todos);
     }
 
     @RequestMapping("/test2")
@@ -45,7 +43,7 @@ public class OpenFeginController {
         MDC.put("requestId", UUID.randomUUID().toString());
         log.info("test2..........");
         lotusClient.unrecognizedPage(new UnrecognizedPageParam().setCurrent(0).setSize(10));
-        return RHelper.success();
+        return R.ok();
     }
 
     @RequestMapping("/test3")
@@ -55,6 +53,6 @@ public class OpenFeginController {
         Map<String, Object> map = new HashMap<>();
         map.put("sss", "aaa");
         Object o = localhostClient.test2(map);
-        return RHelper.success(o);
+        return R.ok(o);
     }
 }

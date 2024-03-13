@@ -137,7 +137,7 @@ public class KafkaTestController {
     public R test1() {
         streamBridge.send("supplier1-out-0", "aaaaaaaaaaaaaaaaaaaaa");
         streamBridge.send("supplier2-out-0", "bbbbbbbbbbbbbbbbbbbbb");
-        return RHelper.success();
+        return R.ok();
     }
 }
 ```
