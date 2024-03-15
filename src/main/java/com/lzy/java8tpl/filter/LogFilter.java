@@ -51,6 +51,7 @@ public class LogFilter extends OncePerRequestFilter {
             stopWatch.start();
             log.info("<<< REQUEST [{}] [{}] [{}] [{}]", request.getRequestURI(), request.getMethod(), request.getProtocol(), request.getRemoteAddr());
             log.info("<<< REQUEST HEADERS   : {}", JSON.toJSONString(HttpUtils.getRequestHeader(request)));
+            ////会影响文件上传MultipartFile接参
             if (!CollectionUtils.isEmpty(request.getParameterMap())) {
                 log.info("<<< REQUEST PARAMETERS: {}", JSON.toJSONString(request.getParameterMap()));
             }
