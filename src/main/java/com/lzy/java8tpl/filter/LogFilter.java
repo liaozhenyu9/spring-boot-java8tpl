@@ -10,6 +10,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.PathMatcher;
 import org.springframework.util.StopWatch;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -30,7 +31,7 @@ public class LogFilter extends OncePerRequestFilter {
     public static final String X_REQUEST_ID = "X-Request-Id";
 
     private static final Set<String> IGNORE_PATHS = Collections.unmodifiableSet(new HashSet<>(
-            Arrays.asList("/**/swagger-ui/**", "/**/swagger-resources/**", "/**/api-docs", "/**/webjars/**")));
+            Arrays.asList("/**/swagger-ui/**", "/**/swagger-resources/**", "/**/api-docs/**", "/**/webjars/**", "/favicon.ico", "/actuator/health", "/algoDispatchRule/page")));
 
     private final PathMatcher matcher = new AntPathMatcher();
 
@@ -39,7 +40,6 @@ public class LogFilter extends OncePerRequestFilter {
         try {
             String requestId = request.getHeader(X_REQUEST_ID);
             MDCUtils.setRequestId(requestId);
-            Map<String, String[]> requestParams = request.getParameterMap();
             // 忽略指定url
             String path = request.getRequestURI().substring(request.getContextPath().length()).replaceAll("[/]+$", "");
             boolean isIgnore = IGNORE_PATHS.stream().anyMatch(ignore -> matcher.match(ignore, path));
@@ -49,26 +49,32 @@ public class LogFilter extends OncePerRequestFilter {
             }
             StopWatch stopWatch = new StopWatch();
             stopWatch.start();
-            log.info("<====== REQUEST [{}] [{}] [{}] [{}]", request.getRequestURI(), request.getMethod(), request.getProtocol(), request.getRemoteAddr());
-            log.info("HEADERS            : {}", JSON.toJSONString(HttpUtils.getRequestHeader(request)));
+            log.info("<<< REQUEST [{}] [{}] [{}] [{}]", request.getRequestURI(), request.getMethod(), request.getProtocol(), request.getRemoteAddr());
+            log.info("<<< REQUEST HEADERS   : {}", JSON.toJSONString(HttpUtils.getRequestHeader(request)));
+            if (!CollectionUtils.isEmpty(request.getParameterMap())) {
+                log.info("<<< REQUEST PARAMETERS: {}", JSON.toJSONString(request.getParameterMap()));
+            }
+            //忽略文件上传
+            if (HttpUtils.isFileUploadContentType(request)) {
+                chain.doFilter(request, response);
+                return;
+            }
+
             CachedBodyHttpServletRequest requestWrapper = new CachedBodyHttpServletRequest(request);
             ContentCachingResponseWrapper responseWrapper = new ContentCachingResponseWrapper(response);
-            log.info("REQUEST PARAMETERS : {}", JSON.toJSONString(requestParams));
-            // 文件上传及GET请求不打印请求体
-            if (!HttpUtils.isFileUploadContentType(requestWrapper) && !"GET".equalsIgnoreCase(requestWrapper.getMethod())) {
-                log.info("[{}] REQUEST BODY = {}", requestWrapper.getRequestURI(), requestWrapper.getBodyString());
+            if (!"GET".equalsIgnoreCase(requestWrapper.getMethod())) {
+                log.info("<<< REQUEST BODY [{}]: {}", requestWrapper.getRequestURI(), requestWrapper.getBodyString());
             }
-            //传入其他过滤器
             chain.doFilter(requestWrapper, responseWrapper);
             //将request-id写入响应头
             responseWrapper.addHeader(X_REQUEST_ID, requestId);
             if (HttpUtils.isContentTypeContainingJson(responseWrapper)) {
-                log.info("[{}] RESPONSE BODY = {}", requestWrapper.getRequestURI(), new String(responseWrapper.getContentAsByteArray(), StandardCharsets.UTF_8));
+                log.info(">>> RESPONSE BODY [{}]: {}", requestWrapper.getRequestURI(), new String(responseWrapper.getContentAsByteArray(), StandardCharsets.UTF_8));
             }
+            stopWatch.stop();
+            log.info(">>> RESPONSE CODE: [{}] ({}ms) [{}] [{}]", responseWrapper.getStatus(), stopWatch.getTotalTimeMillis(), responseWrapper.getContentType(), requestWrapper.getRequestURI());
             // remember to respond to the client with the cached data.
             responseWrapper.copyBodyToResponse();
-            stopWatch.stop();
-            log.info("======> RESPONSE [{}] [{}] [{}] ({}ms)", requestWrapper.getRequestURI(), responseWrapper.getStatus(), responseWrapper.getContentType(), stopWatch.getTotalTimeMillis());
         } finally {
             MDC.clear();
         }

@@ -1,6 +1,9 @@
 package com.lzy.java8tpl.test.easyExcel;
 
 import com.alibaba.excel.EasyExcel;
+import com.lzy.java8tpl.api.R;
+import com.lzy.java8tpl.test.easyExcel.api.XEraProductApplyData;
+import com.lzy.java8tpl.test.easyExcel.api.XEraProductApplyDataListener;
 import com.lzy.java8tpl.test.easyExcel.sql.AlgoProduct;
 import com.lzy.java8tpl.test.easyExcel.sql.AlgoProductUploadDataListener;
 import lombok.RequiredArgsConstructor;
@@ -35,5 +38,11 @@ public class StdEasyExcelController {
     public String algoProduct(MultipartFile file) throws IOException {
         EasyExcel.read(file.getInputStream(), AlgoProduct.class, new AlgoProductUploadDataListener()).sheet().doRead();
         return "success";
+    }
+
+    @PostMapping("xEraSkuApply")
+    public R xEraSkuApply(MultipartFile file) throws IOException {
+        EasyExcel.read(file.getInputStream(), XEraProductApplyData.class, new XEraProductApplyDataListener()).sheet().doRead();
+        return R.ok();
     }
 }
