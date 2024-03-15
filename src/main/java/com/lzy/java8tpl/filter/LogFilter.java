@@ -31,7 +31,7 @@ public class LogFilter extends OncePerRequestFilter {
     public static final String X_REQUEST_ID = "X-Request-Id";
 
     private static final Set<String> IGNORE_PATHS = Collections.unmodifiableSet(new HashSet<>(
-            Arrays.asList("/**/swagger-ui/**", "/**/swagger-resources/**", "/**/api-docs/**", "/**/webjars/**", "/favicon.ico", "/actuator/health", "/algoDispatchRule/page")));
+            Arrays.asList("/**/swagger-ui/**", "/**/swagger-resources/**", "/**/api-docs/**", "/**/webjars/**", "/favicon.ico", "/actuator/health")));
 
     private final PathMatcher matcher = new AntPathMatcher();
 
